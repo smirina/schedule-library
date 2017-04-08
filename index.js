@@ -1,35 +1,45 @@
-function showByDate(date) {
+function schedule () {
 
-}
+  function showByDate(date) {
 
-function showByDateInterval(date1, date2) {
+  }
 
-}
+  function showByDateInterval(date1, date2) {
 
-function showByDateInterval(date1, date2) {
+  }
 
-}
+  function addEvent() {
 
-function addEvent() {
+  }
 
-}
+  function changeEvent() {
 
-function changeEvent() {
+  }
 
-}
+  function addSchool() {
 
-function addSchool() {
+  }
 
-}
+  function changeSchool() {
 
-function changeSchool() {
+  }
 
-}
+  function addPlace() {
 
-function addPlace() {
+  }
 
-}
+  function changePlace() {
 
-function changePlace() {
+  }
 
+  return {
+    showByDate: showByDate,
+    showByDateInterval: showByDateInterval,
+    addEvent: addEvent,
+    changeEvent: changeEvent,
+    addSchool: addSchool,
+    changeSchool: changeSchool,
+    addPlace: addPlace,
+    changePlace: changePlace
+  }
 }
