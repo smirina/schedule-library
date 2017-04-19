@@ -2,5 +2,14 @@
   min-width: 300px;
   max-width: 800px;
   margin: 30px auto;
+  padding: 20px;
   border: 1px solid #9b9b9b;
+}
+
+div + div {
+  margin-top: 16px;
+}
+
+.title {
+  font-size: 24px;
 }
