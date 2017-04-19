@@ -65,12 +65,14 @@ var myData = JSON.stringify({
     zen: {
       name: 'Алиса Зен',
       details: 'Самый главный лис'
-    },
+    }
   }
 })
 
-var mySchedule = schedule()
+//поправить сериалайзы - ивенты стоит добавлять по одному и средствами библиотеки, чтобы проверять данные
 
+var mySchedule = schedule()
+//import
 var mySchool = mySchedule.addSchool({name: 'Школа тестирования', students: 32})
 
 var myPlace = mySchedule.addPlace({name: 'Зеленая альпака', seats: 30})

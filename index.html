@@ -9,7 +9,70 @@
   <link rel="stylesheet" type="text/css" href="index.css">
 </head>
 <body>
+  <div class='container'>
+    <div class='add-form'>
+      <form id="myForm" action="#" method="post">
 
+        <div>
+          <label for="name">Название лекции</label>
+          <input type="text" name="name" id="name" value="">
+        </div>
+
+        <div>
+          <label for="select-choice">Преподаватель</label>
+          <select name="select-choice" id="select-choice">
+            <option value="grlv">Андрей Гурылев</option>
+            <option value="zen">Алиса Зен</option>
+            <option value="ktlh">Ктулху</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="select-choice">Аудитория</label>
+          <select name="select-choice" id="select-choice">
+            <option value="grlv">Синий Кит</option>
+            <option value="zen">Желтый слон</option>
+            <option value="ktlh">Зеленая альпака</option>
+          </select>
+        </div>
+
+        <div>
+          <div>Школа</div>
+          <label for="sh-ri">Школа разработки интерфейсов</label>
+          <input type="checkbox" name="checkbox" id="sh-ri">
+          <label for="sh-dis">Школа мобильного дизайна</label>
+          <input type="checkbox" name="checkbox" id="sh-dis">
+          <label for="sh-ti">Школа мобильного тестирования</label>
+          <input type="checkbox" name="checkbox" id="sh-dis">
+        </div>
+
+        <div>
+          <input type="submit" value="Добавить">
+        </div>
+      </form>
+    </div>
+
+      <div class='add-data'>
+        <form id="myData" action="#" method="post">
+          <div>Не хватает данных?</div>
+          <div>
+            <label for="name">Добавить школу</label>
+            <input type="text" name="school" id="school" value="" placeholder="Например, школа глажки котиков">
+          </div>
+          <div>
+            <label for="name">Добавить преподавателя</label>
+            <input type="text" name="speaker" id="speaker" value="">
+            <label for="name">Информация о преподавателе</label>
+            <input type="text" name="speaker-add" id="speaker-add" value="">
+          </div>
+        </form>
+      </div>
+
+
+    <div class='timetable'>
+      Расписание будет ниже
+    </div>
+  </div>
 <script src='index.js'></script>
 <script src='test.js'></script>
 </body>

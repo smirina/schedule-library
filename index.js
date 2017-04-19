@@ -77,6 +77,7 @@ function schedule () {
       places
     })
   }
+  
   function deserialize(data) {
     var parsed = JSON.parse(data)
     Object.assign(speakers, parsed.speakers)
