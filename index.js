@@ -6,16 +6,33 @@ function schedule () {
     return nextID++
   }
 
-  function getByDate(date) {
-    return eventsByDate[date].map(function(id){
-      let ev = Object.assign({},events[id],{
-        speaker: speakers[events[id].speaker],
-        place: places[events[id].place],
-        school: schools[events[id].school]
-      })
-      return ev
+
+  function expand(id) {
+    var ev = events[id]
+    var expanded = Object.assign({},ev,{
+      speaker: speakers[ev.speaker],
+      place: places[ev.place],
+      school: schools[ev.school]
     })
+    return expanded
   }
+
+  function getAllEvents () {
+    return Object.keys(events).map(expand).sort(function (a, b) {
+      if (a.date > b.date) {
+        return 1;
+      }
+      if (a.date < b.date) {
+        return -1;
+      }
+      return 0;
+    });
+  }
+
+  function getByDate (date) {
+    return eventsByDate[date].map(expand)
+  }
+
 
   function getByDateInterval(date1, date2) {
 
@@ -77,7 +94,7 @@ function schedule () {
       places
     })
   }
-  
+
   function deserialize(data) {
     var parsed = JSON.parse(data)
     Object.assign(speakers, parsed.speakers)
@@ -85,7 +102,6 @@ function schedule () {
     Object.assign(schools, parsed.schools)
     Object.assign(events, parsed.events)
   }
-
 
   var speakers = {}
   var schools = {}
@@ -105,6 +121,7 @@ function schedule () {
     addSpeaker: addSpeaker,
     changeSpeaker: changeSpeaker,
     serialize: serialize,
-    deserialize: deserialize
+    deserialize: deserialize,
+    getAllEvents: getAllEvents
   }
 }
