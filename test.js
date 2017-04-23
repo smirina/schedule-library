@@ -5,19 +5,19 @@ var myData = JSON.stringify({
       school: '1',
       place: '1',
       speaker: 'grlv',
-      date: '2017-05-10T19:00:00'
+      date: '2017-05-09T19:00:00'
     },
     2: {
       name: 'Про дизайн',
       school: '2',
       place: '1',
-      speaker: 'grlv',
+      speaker: 'zen',
       date: '2017-05-10T19:00:00'
     },
     3: {
       name: 'Про дизайнеров',
       school: '1',
-      place: '2',
+      place: '3',
       speaker: 'ktlh',
       date: '2017-05-04T19:00:00'
     }
@@ -42,7 +42,7 @@ var myData = JSON.stringify({
   places: {
     1: {
       name: 'Зеленая альпака',
-      seats: 30
+      seats: 10
     },
     2: {
       name: 'Желтоватый слон',
@@ -92,7 +92,7 @@ var result1 = mySchedule.getAllEvents()
 var tpl = document.getElementById('timetable-row')
 var timetableDiv = document.querySelector('.timetable')
 
-var result = mySchedule.getByDate('2017-05-10')
+// var result = mySchedule.getByDate('2017-05-10')
 
 function toCard(data) {
   var card = tpl.content.cloneNode(true)

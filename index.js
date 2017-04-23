@@ -69,12 +69,33 @@ function schedule () {
       console.log('date!')
       var eventsSameDate = eventsByDate[day].map(id => events[id])
       for (var i = 0; i < eventsSameDate.length; i++) {
-        if (toTime(eventsSameDate[i]) === time && eventsSameDate[i].speaker === data.speaker){
-          passEvent = {error: true, message: 'This speaker is busy!'}
-          console.log(passEvent)
+        if (toTime(eventsSameDate[i]) === time) {
+
+          if (eventsSameDate[i].speaker === data.speaker){
+            passEvent = {error: true, message: 'This speaker is busy!'}
+            console.log(passEvent)
+          }
+
+          if (eventsSameDate[i].school === data.school) {
+            passEvent = {error: true, message: 'This school is busy!'}
+            console.log(passEvent)
+          }
+
+          if (eventsSameDate[i].place === data.place) {
+            passEvent = {error: true, message: 'This place is busy!'}
+            console.log(passEvent)
+          }
         }
+
       }
     }
+    
+    if (schools[data.school].students > places[data.place].seats) {
+      passEvent = {error: true, message: 'Too much people for this place!'}
+      console.log(passEvent)
+    }
+
+    console.log(schools[data.school].students, places[data.place].seats)
 
     if (passEvent) {
       return passEvent
