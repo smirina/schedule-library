@@ -33,19 +33,42 @@ function schedule () {
     return eventsByDate[date].map(expand)
   }
 
-
   function getByDateInterval(date1, date2) {
 
   }
 
   function addEvent(data) {
+
+    var day = data.date.split('T')[0]
+    function toTime(ev) {
+      return ev.date.split('T')[1]
+    }
+    var time = toTime(data)
+    var speaker = data.speaker
+    var passEvent = null
+
+    if (eventsByDate[day]) {
+      console.log('date!')
+      var eventsSameDate = eventsByDate[day].map(id => events[id])
+      for (var i = 0; i < eventsSameDate.length; i++) {
+        if (toTime(eventsSameDate[i]) === time && eventsSameDate[i].speaker === data.speaker){
+          passEvent = {error: true, message: 'This speaker is busy!'}
+          console.log(passEvent)
+        }
+      }
+    }
+
+    if (passEvent) {
+      return passEvent
+    }
+    
     var id = data.id || getNextID()
     data.id = id
     events[id] = data
 
-    var day = data.date.split('T')[0]
     if (!eventsByDate[day]) {eventsByDate[day] = []}
     eventsByDate[day].push(id)
+
     return id
   }
 
@@ -60,8 +83,8 @@ function schedule () {
     return id
   }
 
-  function changeSchool() {
-
+  function changeSchool(id, data) {
+    schools[id] = data
   }
 
   function addPlace(data) {
@@ -100,7 +123,16 @@ function schedule () {
     Object.assign(speakers, parsed.speakers)
     Object.assign(places, parsed.places)
     Object.assign(schools, parsed.schools)
-    Object.assign(events, parsed.events)
+    var eventsObj = parsed.events
+    var eventsObjKeys = Object.keys(eventsObj).map(key => eventsObj[key])
+    for (var i = 0; i < eventsObjKeys.length; i++) {
+      addEvent(eventsObjKeys[i])
+    }
+    // var speakersObj = parsed.speakers
+    // var speakersObjKeys = Object.keys(speakersObj).map(key => speakersObj[key])
+    // for (var n = 0; n < speakersObjKeys.length; n++) {
+    //   addEvent(speakersObjKeys[n])
+    // }
   }
 
   var speakers = {}
@@ -108,9 +140,11 @@ function schedule () {
   var places = {}
   var events = {}
   var eventsByDate = {}
+  // var eventsBySpeaker = {}
 
   return {
     getByDate: getByDate,
+    // getBySpeaker: getBySpeaker,
     getByDateInterval: getByDateInterval,
     addEvent: addEvent,
     changeEvent: changeEvent,

@@ -11,8 +11,8 @@ var myData = JSON.stringify({
       name: 'Про дизайн',
       school: '2',
       place: '1',
-      speaker: 'zen',
-      date: '2017-05-03T19:00:00'
+      speaker: 'grlv',
+      date: '2017-05-10T19:00:00'
     },
     3: {
       name: 'Про дизайнеров',
@@ -71,28 +71,34 @@ var myData = JSON.stringify({
 
 var mySchedule = schedule()
 //deserialize
-// var mySchool = mySchedule.addSchool({name: 'Школа тестирования', students: 32})
-//
-// var myPlace = mySchedule.addPlace({name: 'Зеленая альпака', seats: 30})
-//
-// var mySpeaker = mySchedule.addSpeaker({name: 'Ктулху', details: 'Неописуем'})
-//
-// var myEvent = mySchedule.addEvent({
-//   name: 'Первая лекция',
-//   school: mySchool,
-//   place: myPlace,
-//   speaker: mySpeaker,
-//   date: '2017-05-01T19:00:00'
-// })
+var mySchool = mySchedule.addSchool({name: 'Школа тестирования', students: 32})
 
+var myPlace = mySchedule.addPlace({name: 'Зеленая альпака', seats: 30})
+
+var mySpeaker = mySchedule.addSpeaker({name: 'Ктулху', details: 'Неописуем'})
+
+var myEvent = mySchedule.addEvent({
+  name: 'Первая лекция',
+  school: mySchool,
+  place: myPlace,
+  speaker: mySpeaker,
+  date: '2017-05-01T19:00:00'
+})
 
 mySchedule.deserialize(myData)
+
+// console.log(newShedule)
+
+// for (var i = 0; i < myData.events.length; i++) {
+//   mySchedule.deserialize(myData)[i]
+// }
+
 var result1 = mySchedule.getAllEvents()
 
 var tpl = document.getElementById('timetable-row')
 var timetableDiv = document.querySelector('.timetable')
 
-var result = mySchedule.getByDate('2017-05-04');
+var result = mySchedule.getByDate('2017-05-10')
 
 function toCard(data) {
   var card = tpl.content.cloneNode(true)
