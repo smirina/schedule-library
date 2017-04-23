@@ -87,12 +87,6 @@ var myEvent = mySchedule.addEvent({
 
 mySchedule.deserialize(myData)
 
-// console.log(newShedule)
-
-// for (var i = 0; i < myData.events.length; i++) {
-//   mySchedule.deserialize(myData)[i]
-// }
-
 var result1 = mySchedule.getAllEvents()
 
 var tpl = document.getElementById('timetable-row')
@@ -109,6 +103,6 @@ function toCard(data) {
 }
 
 
-result
+result1
   .map(toCard)
   .forEach(el => timetableDiv.appendChild(el))

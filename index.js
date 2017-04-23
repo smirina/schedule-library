@@ -34,7 +34,25 @@ function schedule () {
   }
 
   function getByDateInterval(date1, date2) {
-
+    function getRange(date1, date2) {
+      var range = []
+      var d = new Date(date1)
+      var c = d.toISOString().split('T')[0]
+      var i = 0
+      while (c != date2 && (i++ < 100)) {
+        range.push(c)
+        d.setDate(d.getDate() + 1)
+        c = d.toISOString().split('T')[0]
+        console.log(c)
+      }
+      range.push(c)
+      console.log(range)
+      return range
+    }
+    return getRange(date1, date2)
+      .map(id => eventsByDate[id] || [])
+      .reduce((result, day) => result.concat(day), [])
+      .map(expand)
   }
 
   function addEvent(data) {
@@ -61,7 +79,7 @@ function schedule () {
     if (passEvent) {
       return passEvent
     }
-    
+
     var id = data.id || getNextID()
     data.id = id
     events[id] = data
