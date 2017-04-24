@@ -32,56 +32,65 @@ function schedule () {
     return eventsByDate[date].map(expand)
   }
 
-  function getByDateInterval(date1, date2) {
-    function getRange(date1, date2) {
-      var range = []
-      var d = new Date(date1)
-      var c = d.toISOString().split('T')[0]
-      var i = 0
-      while (c != date2 && (i++ < 100)) {
-        range.push(c)
-        d.setDate(d.getDate() + 1)
-        c = d.toISOString().split('T')[0]
-        console.log(c)
-      }
+  function getRange(date1, date2) {
+    var range = []
+    var d = new Date(date1)
+    var c = d.toISOString().split('T')[0]
+    var i = 0
+    while (c != date2 && (i++ < 100)) {
       range.push(c)
-      console.log(range)
-      return range
+      d.setDate(d.getDate() + 1)
+      c = d.toISOString().split('T')[0]
+      console.log(c)
     }
+    range.push(c)
+    console.log(range)
+    return range
+  }
+
+  function getByDateInterval(date1, date2) {
+
     return getRange(date1, date2)
       .map(id => eventsByDate[id] || [])
       .reduce((result, day) => result.concat(day), [])
       .map(expand)
   }
 
-  function addEvent(data) {
+  function getByPlaceAtDateInterval(place, date1, date2) {
+    return getRange(date1, date2)
+      .map(id => eventsByDate[id] || [])
+      .reduce((result, day) => result.concat(day), [])
+      .map(expand)
+      .filter(ev => ev.place.id === place)
+  }
 
+  function checkEvent (data, id) {
     var day = data.date.split('T')[0]
     function toTime(ev) {
       return ev.date.split('T')[1]
     }
     var time = toTime(data)
-    var speaker = data.speaker
-    var passEvent = null
+    var error = null
 
     if (eventsByDate[day]) {
       var eventsSameDate = eventsByDate[day].map(id => events[id])
       for (var i = 0; i < eventsSameDate.length; i++) {
-        if (toTime(eventsSameDate[i]) === time) {
+        var idCheck = id ? id == eventsSameDate[i].id : true
+        if (toTime(eventsSameDate[i]) === time && !idCheck) {
 
           if (eventsSameDate[i].speaker === data.speaker){
-            passEvent = {error: true, message: 'This speaker is busy!'}
-            console.log(passEvent)
+            error = {error: true, message: 'This speaker is busy!'}
+            console.log(error)
           }
 
           if (eventsSameDate[i].school === data.school) {
-            passEvent = {error: true, message: 'This school is busy!'}
-            console.log(passEvent)
+            error = {error: true, message: 'This school is busy!'}
+            console.log(error)
           }
 
           if (eventsSameDate[i].place === data.place) {
-            passEvent = {error: true, message: 'This place is busy!'}
-            console.log(passEvent)
+            error = {error: true, message: 'This place is busy!'}
+            console.log(error)
           }
         }
 
@@ -89,12 +98,20 @@ function schedule () {
     }
 
     if (schools[data.school].students > places[data.place].seats) {
-      passEvent = {error: true, message: 'Too much people for this place!'}
-      console.log(passEvent)
+      error = {error: true, message: 'Too much people for this place!'}
+      console.log(error)
     }
 
-    if (passEvent) {
-      return passEvent
+    return error
+  }
+
+  function addEvent(data) {
+
+    var error = checkEvent(data)
+    var day = data.date.split('T')[0]
+
+    if (error) {
+      return error
     }
 
     var id = data.id || getNextID()
@@ -107,8 +124,13 @@ function schedule () {
     return id
   }
 
-  function changeEvent() {
-
+  function changeEvent(id, data) {
+    var error = checkEvent(data, id)
+    if (error) {
+      return error
+    }
+    events[id] = data
+    return id
   }
 
   function addSchool(data) {
@@ -129,8 +151,8 @@ function schedule () {
     return id
   }
 
-  function changePlace() {
-
+  function changePlace(id, data) {
+    places[id] = data
   }
 
   function addSpeaker(data) {
@@ -140,8 +162,8 @@ function schedule () {
     return id
   }
 
-  function changeSpeaker() {
-
+  function changeSpeaker(id, data) {
+    speakers[id] = data
   }
 
   function serialize() {
@@ -163,11 +185,6 @@ function schedule () {
     for (var i = 0; i < eventsObjKeys.length; i++) {
       addEvent(eventsObjKeys[i])
     }
-    // var speakersObj = parsed.speakers
-    // var speakersObjKeys = Object.keys(speakersObj).map(key => speakersObj[key])
-    // for (var n = 0; n < speakersObjKeys.length; n++) {
-    //   addEvent(speakersObjKeys[n])
-    // }
   }
 
   var speakers = {}
@@ -179,8 +196,8 @@ function schedule () {
 
   return {
     getByDate: getByDate,
-    // getBySpeaker: getBySpeaker,
     getByDateInterval: getByDateInterval,
+    getByPlaceAtDateInterval: getByPlaceAtDateInterval,
     addEvent: addEvent,
     changeEvent: changeEvent,
     addSchool: addSchool,

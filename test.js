@@ -41,14 +41,17 @@ var myData = JSON.stringify({
   },
   places: {
     1: {
+      id: '1',
       name: 'Зеленая альпака',
       seats: 10
     },
     2: {
+      id: '2',
       name: 'Желтоватый слон',
       seats: 32
     },
     3: {
+      id: '3',
       name: 'Синий кит',
       seats: 40
     }
@@ -77,17 +80,21 @@ var myPlace = mySchedule.addPlace({name: 'Зеленая альпака', seats:
 
 var mySpeaker = mySchedule.addSpeaker({name: 'Анатолий Сергеев', details: 'Опытный разработчик'})
 
-var myEvent = mySchedule.addEvent({
+var myEventData = {
   name: 'Первая лекция',
   school: mySchool,
   place: myPlace,
   speaker: mySpeaker,
-  date: '2017-05-01T19:00:00'
-})
+  date: '2017-06-01T19:00:00'
+}
+
+var myEvent = mySchedule.addEvent(myEventData)
+
+mySchedule.changeEvent(myEvent, Object.assign({}, myEventData, {name:'Первая лекция (обновлено)'}))
 
 mySchedule.deserialize(myData)
 
-var result = mySchedule.getAllEvents()
+var result = mySchedule.getByPlaceAtDateInterval('3', '2017-05-09', '2017-05-11')
 
 var tpl = document.getElementById('timetable-row')
 var timetableDiv = document.querySelector('.timetable')
@@ -96,7 +103,8 @@ function toCard(data) {
   var card = tpl.content.cloneNode(true)
   card.querySelector('.lection').innerHTML = data.name
   card.querySelector('.speaker').innerHTML = data.speaker.name
-  card.querySelector('.date').innerHTML = data.date
+  card.querySelector('.date').innerHTML = new Date(data.date).toLocaleDateString()
+  card.querySelector('.place').innerHTML = data.place.name
   return card
 }
 
