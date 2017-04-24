@@ -1,31 +1,31 @@
 var myData = JSON.stringify({
   events: {
     1: {
-      name: 'Еще лекция',
+      name: 'Вводная лекция',
       school: '1',
-      place: '1',
+      place: '3',
       speaker: 'grlv',
       date: '2017-05-09T19:00:00'
     },
     2: {
-      name: 'Про дизайн',
+      name: 'Интерфейсы и разработка',
       school: '2',
-      place: '1',
+      place: '3',
       speaker: 'zen',
       date: '2017-05-10T19:00:00'
     },
     3: {
       name: 'Про дизайнеров',
-      school: '1',
-      place: '3',
+      school: '2',
+      place: '1',
       speaker: 'ktlh',
-      date: '2017-05-04T19:00:00'
+      date: '2017-05-10T19:00:00'
     }
   },
   schools: {
     1: {
-      id: 'sh-ti',
-      name: 'Школа тестирования',
+      id: 'sh-mr',
+      name: 'Школа мобильной разработки',
       students: 32
     },
     2: {
@@ -56,26 +56,26 @@ var myData = JSON.stringify({
   speakers: {
     grlv: {
       name: 'Андрей Гурылев',
-      details: 'Wrike'
+      details: 'Разработчик Wrike'
     },
     ktlh: {
-      name: 'Ктулху',
-      details: 'Неописуем'
+      name: 'Кирилл Телехов',
+      details: 'Разработчик мобильных приложений'
     },
     zen: {
       name: 'Алиса Зен',
-      details: 'Самый главный лис'
+      details: 'Опытный дизайнер'
     }
   }
 })
 
 var mySchedule = schedule()
-//deserialize
+
 var mySchool = mySchedule.addSchool({name: 'Школа тестирования', students: 32})
 
-var myPlace = mySchedule.addPlace({name: 'Зеленая альпака', seats: 30})
+var myPlace = mySchedule.addPlace({name: 'Зеленая альпака', seats: 35})
 
-var mySpeaker = mySchedule.addSpeaker({name: 'Ктулху', details: 'Неописуем'})
+var mySpeaker = mySchedule.addSpeaker({name: 'Анатолий Сергеев', details: 'Опытный разработчик'})
 
 var myEvent = mySchedule.addEvent({
   name: 'Первая лекция',
@@ -87,12 +87,10 @@ var myEvent = mySchedule.addEvent({
 
 mySchedule.deserialize(myData)
 
-var result1 = mySchedule.getAllEvents()
+var result = mySchedule.getAllEvents()
 
 var tpl = document.getElementById('timetable-row')
 var timetableDiv = document.querySelector('.timetable')
-
-// var result = mySchedule.getByDate('2017-05-10')
 
 function toCard(data) {
   var card = tpl.content.cloneNode(true)
@@ -102,7 +100,6 @@ function toCard(data) {
   return card
 }
 
-
-result1
+result
   .map(toCard)
   .forEach(el => timetableDiv.appendChild(el))

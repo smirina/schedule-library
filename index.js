@@ -6,7 +6,6 @@ function schedule () {
     return nextID++
   }
 
-
   function expand(id) {
     var ev = events[id]
     var expanded = Object.assign({},ev,{
@@ -66,7 +65,6 @@ function schedule () {
     var passEvent = null
 
     if (eventsByDate[day]) {
-      console.log('date!')
       var eventsSameDate = eventsByDate[day].map(id => events[id])
       for (var i = 0; i < eventsSameDate.length; i++) {
         if (toTime(eventsSameDate[i]) === time) {
@@ -89,13 +87,11 @@ function schedule () {
 
       }
     }
-    
+
     if (schools[data.school].students > places[data.place].seats) {
       passEvent = {error: true, message: 'Too much people for this place!'}
       console.log(passEvent)
     }
-
-    console.log(schools[data.school].students, places[data.place].seats)
 
     if (passEvent) {
       return passEvent
